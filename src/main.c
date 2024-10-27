@@ -30,6 +30,10 @@
 #define SOCKOPT_REUSEADDR 1
 #define CONNECTION_BACKLOG 5
 
+#define REQUEST_BUFFER_SIZE 2048
+
+#define DEFAULT_SEND_FLAGS 0
+
 int main(int argc, char *argv[]) {
   printf("http-server-c  Copyright (C) 2024  Tirth Patel\n"
          "This program comes with ABSOLUTELY NO WARRANTY;\n"
@@ -79,6 +83,14 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
   printf("Client connected!\n");
+
+  char request[REQUEST_BUFFER_SIZE] = {0};
+  // we want request string to terminate with a null character,
+  // so we pass `actual size - 1`
+  read(connection, request, REQUEST_BUFFER_SIZE - 1);
+
+  char ok_200[] = "HTTP/1.1 200 OK\r\n\r\n";
+  send(connection, ok_200, strlen(ok_200), DEFAULT_SEND_FLAGS);
 
   close(connection);
   close(server_fd);
