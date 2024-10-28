@@ -1,5 +1,5 @@
 #pragma once
 
-extern int my_strstr(char *const string, char *const substr);
+extern int my_strstr(const char *string, const char *substr);
 
-extern char *my_strtok(char *const string, char *const delim);
+extern char *my_strtok(const char *string, const char *delim);
